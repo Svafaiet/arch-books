@@ -43,9 +43,8 @@ class BookSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         tags = validated_data.pop('tags')
-        book = Book.objects.all().create(**validated_data)
         tags = Tag.objects.all().filter(name__in=tags)
-        book.tags.clear()
-        book.tags.add(*tags)
+        instance.tags.clear()
+        instance.tags.add(*tags)
         return super().update(instance, validated_data)
 
